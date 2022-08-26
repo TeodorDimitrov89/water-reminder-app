@@ -62,6 +62,9 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 24,
     backgroundColor: GlobalStyles.colors.primary400,
+    flex: 1,
+    marginHorizontal: 16,
+    marginTop: 50,
   },
   calendarContainer: {
     flexDirection: "row",
