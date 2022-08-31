@@ -8,6 +8,7 @@ import Home from "../screens/Home/Home";
 import Button from "../components/Buttons/Button";
 import History from "../screens/History/History";
 import Settings from "../screens/Settings/Settings";
+import AddDrink from "../components/ManageDrinks/AddDrink";
 
 const Stack = createNativeStackNavigator();
 
@@ -35,7 +36,7 @@ function HomeOverview() {
           tabBarInactiveBackgroundColor: GlobalStyles.colors.primary100,
           tabBarInactiveTintColor: GlobalStyles.colors.white,
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" size={size} color={color} />
+            <Ionicons name="water" size={size} color={color} />
           ),
         }}
       />
@@ -91,12 +92,12 @@ const Navigation = () => {
           options={{ headerShown: false }}
         />
         {/* <Stack.Screen
-      name="ManageExpense"
-      component={ManageExpense}
-      options={{
-        presentation: "modal",
-      }}
-    /> */}
+          name="AddDrink"
+          component={AddDrink}
+          options={{
+            presentation: "modal",
+          }}
+        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

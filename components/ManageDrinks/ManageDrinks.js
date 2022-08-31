@@ -1,12 +1,29 @@
-import React from "react";
+import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import Modal from "react-native-modal";
 import { StyleSheet, Text, View } from "react-native";
 import { GlobalStyles } from "../../constants/styles";
 import Button from "../Buttons/Button";
+import Select from "../UI/Select";
 
 const ManageDrinks = () => {
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
   const dynamicHeight = 18.75;
   // 250 / 4000 = 6,25%
   // 300 * 6,25% / 100 = 18.75
+
+  const addDrinkHandler = () => {
+    // navigation.navigate("AddDrink");
+  };
+
+  const selectQuantityHandler = (selectedItem) => {
+    console.log(selectedItem, "selectedItem");
+  };
   return (
     <>
       <View style={styles.container}>
@@ -37,9 +54,21 @@ const ManageDrinks = () => {
           size={22}
           buttonStyles={styles.button}
           color={GlobalStyles.colors.white}
+          onPress={toggleModal}
         >
           <Text style={styles.buttonText}>Drink</Text>
         </Button>
+      </View>
+
+      <View style={{ flex: 1 }}>
+        <Modal isVisible={isModalVisible}>
+          <View style={{ flex: 1 }}>
+            <Select onSelect={selectQuantityHandler} />
+            <Button onPress={toggleModal}>
+              <Text style={styles.buttonText}>Close</Text>
+            </Button>
+          </View>
+        </Modal>
       </View>
     </>
   );
@@ -53,16 +82,16 @@ const styles = StyleSheet.create({
   },
   bottle: {
     position: "relative",
-    marginTop: 100,
+    marginTop: 40,
     marginLeft: "auto",
     marginRight: "auto",
   },
   topBottle: {
     position: "absolute",
     zIndex: 10,
-    top: -35,
+    top: -25,
     width: 100,
-    height: 40,
+    height: 30,
     backgroundColor: GlobalStyles.colors.primary200,
     marginLeft: 30,
     borderRadius: 14,
@@ -116,7 +145,7 @@ const styles = StyleSheet.create({
   centerText: {
     textAlign: "center",
     color: GlobalStyles.colors.gray100,
-    fontSize: 18,
+    fontSize: 16,
   },
   text: {
     fontSize: 24,
@@ -129,7 +158,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 40,
+    marginTop: 20,
+    marginBottom: 0,
     backgroundColor: GlobalStyles.colors.primary400,
     borderRadius: 250,
     shadowColor: "#000000",

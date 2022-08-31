@@ -12,7 +12,6 @@ const Calendar = () => {
   const [isCalendarVisible, setCalendarVisibility] = useState(false);
   const [selectedDate, setSelectedDate] = useState(defaultDate);
   const showCalendarHandler = () => {
-    console.log("Open calendar");
     setCalendarVisibility(true);
   };
 
@@ -36,14 +35,10 @@ const Calendar = () => {
             onPress={showCalendarHandler}
           />
         </View>
-        <View>
-          <Text style={styles.textCalendar}>
-            {getFormatedWeekName(selectedDate)}
-          </Text>
-          <Text style={styles.textCalendar}>
-            {getFormatedDate(selectedDate)}
-          </Text>
-        </View>
+        <Text style={styles.textCalendar}>
+          {getFormatedWeekName(selectedDate)}
+        </Text>
+        <Text style={styles.textCalendar}>{getFormatedDate(selectedDate)}</Text>
       </View>
       <DateTimePickerModal
         isVisible={isCalendarVisible}
@@ -60,11 +55,10 @@ export default Calendar;
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 24,
+    borderRadius: 20,
     backgroundColor: GlobalStyles.colors.primary400,
-    flex: 1,
-    marginHorizontal: 16,
-    marginTop: 50,
+    flex: 2,
+    marginTop: 30,
   },
   calendarContainer: {
     flexDirection: "row",
@@ -77,5 +71,6 @@ const styles = StyleSheet.create({
   textCalendar: {
     color: GlobalStyles.colors.white,
     fontSize: 18,
+    marginHorizontal: 5,
   },
 });
