@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   calendarContainer: {
     flexDirection: "row",
     alignItems: "center",
-    padding: 12,
+    padding: 16,
   },
   calendarButton: {
     marginRight: 12,

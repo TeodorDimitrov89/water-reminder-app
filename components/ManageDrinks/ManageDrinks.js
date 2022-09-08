@@ -1,28 +1,43 @@
 import { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
-import Modal from "react-native-modal";
+
 import { StyleSheet, Text, View } from "react-native";
 import { GlobalStyles } from "../../constants/styles";
+import { calculateDrinkProgress } from "../../utils/Drinks";
 import Button from "../Buttons/Button";
-import Select from "../UI/Select";
+import UIModal from "../UI/UIModal";
 
 const ManageDrinks = () => {
   const [isModalVisible, setModalVisible] = useState(false);
+  const [dynamicHeight, setDynamicHeight] = useState(0);
+  const [drinkProgress, setDrinkProgress] = useState(0);
+  const [selectedQuantity, setSelectedQuantity] = useState();
 
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
+  const openModalHandler = () => {
+    setModalVisible(true);
   };
 
-  const dynamicHeight = 18.75;
-  // 250 / 4000 = 6,25%
-  // 300 * 6,25% / 100 = 18.75
+  const closeModalHandler = () => {
+    setModalVisible(false);
+  };
 
-  const addDrinkHandler = () => {
-    // navigation.navigate("AddDrink");
+  const confirmModalHandler = () => {
+    if (selectedQuantity) {
+      setModalVisible(false);
+      let [height, progress] = calculateDrinkProgress(selectedQuantity);
+      if (progress > 100) {
+        progress = 100;
+      }
+
+      setDynamicHeight(height);
+      setDrinkProgress(progress);
+    }
+
+    // Handle confirm
   };
 
   const selectQuantityHandler = (selectedItem) => {
-    console.log(selectedItem, "selectedItem");
+    // console.log(selectedItem, "selectedItem");
+    setSelectedQuantity(selectedItem);
   };
   return (
     <>
@@ -34,7 +49,7 @@ const ManageDrinks = () => {
           </View>
           <View>
             <Text style={styles.text}>Complete</Text>
-            <Text style={styles.centerText}>250 ml</Text>
+            <Text style={styles.centerText}>{selectedQuantity} ml</Text>
           </View>
         </View>
         <View style={styles.bottle}>
@@ -42,7 +57,7 @@ const ManageDrinks = () => {
           <View style={styles.middleBottle}></View>
           <View style={styles.bottomBottle}>
             <View style={styles.waterTextContainer}>
-              <Text style={styles.waterText}>6,25 %</Text>
+              <Text style={styles.waterText}>{drinkProgress} %</Text>
             </View>
             <View style={[styles.water, { height: dynamicHeight }]}></View>
           </View>
@@ -54,21 +69,19 @@ const ManageDrinks = () => {
           size={22}
           buttonStyles={styles.button}
           color={GlobalStyles.colors.white}
-          onPress={toggleModal}
+          onPress={openModalHandler}
         >
           <Text style={styles.buttonText}>Drink</Text>
         </Button>
       </View>
 
-      <View style={{ flex: 1 }}>
-        <Modal isVisible={isModalVisible}>
-          <View style={{ flex: 1 }}>
-            <Select onSelect={selectQuantityHandler} />
-            <Button onPress={toggleModal}>
-              <Text style={styles.buttonText}>Close</Text>
-            </Button>
-          </View>
-        </Modal>
+      <View style={styles.modalContainer}>
+        <UIModal
+          isVisible={isModalVisible}
+          onSelect={selectQuantityHandler}
+          onClose={closeModalHandler}
+          onConfirm={confirmModalHandler}
+        />
       </View>
     </>
   );
@@ -105,7 +118,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 14,
     borderTopRightRadius: 14,
   },
-
   bottomBottle: {
     height: 300,
     width: 160,
@@ -151,7 +163,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: GlobalStyles.colors.primary400,
   },
-
   button: {
     width: 250,
     height: 50,
