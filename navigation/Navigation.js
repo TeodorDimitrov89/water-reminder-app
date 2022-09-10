@@ -9,6 +9,7 @@ import Button from "../components/Buttons/Button";
 import History from "../screens/History/History";
 import Settings from "../screens/Settings/Settings";
 import AddDrink from "../components/ManageDrinks/AddDrink";
+import Welcome from "../screens/Welcome/Welcome";
 
 const Stack = createNativeStackNavigator();
 
@@ -81,23 +82,20 @@ const Navigation = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          // headerStyle: { backgroundColor: GlobalStyles.colors.primary400 },
-          // headerTintColor: "#ffffff",
           headerShown: false,
         }}
       >
+        <Stack.Screen
+          name="Welcome"
+          component={Welcome}
+          options={{ headerShown: false }}
+        />
+
         <Stack.Screen
           name="HomeOverview"
           component={HomeOverview}
           options={{ headerShown: false }}
         />
-        {/* <Stack.Screen
-          name="AddDrink"
-          component={AddDrink}
-          options={{
-            presentation: "modal",
-          }}
-        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
