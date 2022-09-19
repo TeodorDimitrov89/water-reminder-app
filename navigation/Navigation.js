@@ -5,11 +5,10 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { GlobalStyles } from "../constants/styles";
 import Home from "../screens/Home/Home";
-import Button from "../components/Buttons/Button";
 import History from "../screens/History/History";
 import Settings from "../screens/Settings/Settings";
-import AddDrink from "../components/ManageDrinks/AddDrink";
-import Welcome from "../screens/Welcome/Welcome";
+import Welcome from "../screens/Intro/Welcome/Welcome";
+import Intro from "../screens/Intro/Intro";
 
 const Stack = createNativeStackNavigator();
 
@@ -88,6 +87,12 @@ const Navigation = () => {
         <Stack.Screen
           name="Welcome"
           component={Welcome}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="Intro"
+          component={Intro}
           options={{ headerShown: false }}
         />
 

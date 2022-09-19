@@ -1,27 +1,30 @@
 import { Image, StyleSheet, View, Dimensions, Text } from "react-native";
-import Button from "../../components/Buttons/Button";
-import { GlobalStyles } from "../../constants/styles";
+import Button from "../../../components/Buttons/Button";
+import { GlobalStyles } from "../../../constants/styles";
 
 const windowWidth = Dimensions.get("window").width;
 
-const Welcome = () => {
+const Welcome = ({ navigation }) => {
+  const goToSelectGender = () => {
+    navigation.navigate("Intro");
+  };
   return (
     <View style={styles.container}>
       <View style={styles.welcomeContainer}>
         <Image
           style={styles.image}
-          source={require("../../assets/welcome.png")}
+          source={require("../../../assets/welcome.png")}
         />
 
         <Text style={styles.welcomeTitle}>
           Let me help you keep hydarted and healthy
         </Text>
         <Text style={styles.welcomeText}>
-          In order to provide tailored hydration advice, the application needs
-          to get some basic information. And this will be kept in a secret.
+          In order to provide personalized hydration advice, the app must
+          receive some background information. And that will be kept secret
         </Text>
       </View>
-      <Button buttonStyles={styles.button}>
+      <Button buttonStyles={styles.button} onPress={goToSelectGender}>
         <Text style={styles.buttonText}>Let's Go</Text>
       </Button>
     </View>
@@ -58,7 +61,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   button: {
-    backgroundColor: "#1aaaeb66",
+    backgroundColor: GlobalStyles.colors.primary400,
     marginTop: "auto",
     marginBottom: 40,
     paddingVertical: 10,

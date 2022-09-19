@@ -7,7 +7,7 @@ const Button = ({ onPress, icon, color, size, children, buttonStyles }) => {
       onPress={onPress}
       style={({ pressed }) => [buttonStyles, pressed && styles.pressed]}
     >
-      <Ionicons name={icon} size={size} color={color} />
+      {icon && <Ionicons name={icon} size={size} color={color} />}
       {children}
     </Pressable>
   );
