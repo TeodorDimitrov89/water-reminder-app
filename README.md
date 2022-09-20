@@ -2,9 +2,12 @@
 
 A React native app that aims to remind you to drink water every day
 
-<img
-  src="assets/screens/welcome.png"
-  alt="Welcome"
-  style="display: inline-block; max-width: 300px">
+![plot](assets/screens/welcome.png)
+
+![plot](assets/screens/select-gender-screen.png)
+
+![plot](assets/screens/male-weight-screen.png)
+
+![plot](assets/screens/female-weight-screen.png)
 
 ![plot](assets/screens/screen-1.png)
