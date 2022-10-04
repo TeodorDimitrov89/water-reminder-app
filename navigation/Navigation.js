@@ -89,7 +89,7 @@ const Navigation = () => {
 
   useEffect(() => {
     async function fetchAuth() {
-      await clearStorage();
+      // await clearStorage();
       const skipWelcomeScreen = (await getItem(AUTH_KEY)) || false;
 
       if (skipWelcomeScreen) {

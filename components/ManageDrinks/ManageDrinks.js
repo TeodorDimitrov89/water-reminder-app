@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { StyleSheet, Text, View } from "react-native";
+import { ACTIVITY_KEY, WEIGHT_KEY } from "../../constants/storage";
 import { GlobalStyles } from "../../constants/styles";
-import { calculateDrinkProgress } from "../../utils/Drinks";
+import { getItem } from "../../storage/database";
+import { calcDailyGoal, calculateDrinkProgress } from "../../utils/Drinks";
 import Button from "../Buttons/Button";
 import UIModal from "../UI/UIModal";
 
@@ -10,7 +12,19 @@ const ManageDrinks = () => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [dynamicHeight, setDynamicHeight] = useState(0);
   const [drinkProgress, setDrinkProgress] = useState(0);
-  const [selectedQuantity, setSelectedQuantity] = useState();
+  const [selectedQuantity, setSelectedQuantity] = useState(0);
+  const [dailyGoal, setDailyGoal] = useState();
+
+  useEffect(() => {
+    const getUserInfo = async () => {
+      const weight = await getItem(WEIGHT_KEY);
+      const activity = await getItem(ACTIVITY_KEY);
+
+      const calcDailyIntake = calcDailyGoal(weight, activity);
+      setDailyGoal(calcDailyIntake);
+    };
+    getUserInfo();
+  }, []);
 
   const openModalHandler = () => {
     setModalVisible(true);
@@ -20,11 +34,12 @@ const ManageDrinks = () => {
     setModalVisible(false);
   };
 
-  const confirmModalHandler = () => {
+  const confirmModalHandler = async (selectedQuantity) => {
     if (selectedQuantity) {
       setModalVisible(false);
-      let [height, progress] = calculateDrinkProgress(selectedQuantity);
-      if (progress > 100) {
+
+      let [height, progress] = await calculateDrinkProgress(selectedQuantity);
+      if (progress >= 100) {
         progress = 100;
       }
 
@@ -37,18 +52,19 @@ const ManageDrinks = () => {
 
   const selectQuantityHandler = (selectedItem) => {
     setSelectedQuantity(selectedItem);
-    confirmModalHandler();
+    confirmModalHandler(selectedItem);
   };
+
   return (
     <>
       <View style={styles.container}>
         <View style={styles.center}>
           <View style={styles.textContainer}>
             <Text style={styles.text}>Daily Goal</Text>
-            <Text style={styles.centerText}>4000 ml</Text>
+            <Text style={styles.centerText}>{dailyGoal} ml</Text>
           </View>
           <View>
-            <Text style={styles.text}>Complete</Text>
+            <Text style={styles.text}>Completed</Text>
             <Text style={styles.centerText}>{selectedQuantity} ml</Text>
           </View>
         </View>

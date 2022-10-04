@@ -5,13 +5,12 @@ import ListDrink from "../../components/ManageDrinks/ListDrink";
 import ManageDrinks from "../../components/ManageDrinks/ManageDrinks";
 import { GlobalStyles } from "../../constants/styles";
 
-import { getItem } from "../../storage/database";
-
-import { ACTIVITY_KEY } from "../../constants/storage";
+// import { getItem } from "../../storage/database";
+// import { ACTIVITY_KEY } from "../../constants/storage";
 
 const Home = () => {
   const activityHandler = async () => {
-    console.log(await getItem(ACTIVITY_KEY));
+    // console.log(await getItem(ACTIVITY_KEY));
   };
   useEffect(() => {
     activityHandler();

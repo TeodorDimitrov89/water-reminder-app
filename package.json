@@ -28,7 +28,8 @@
     "react-native-select-dropdown": "^2.0.4",
     "react-native-wheel-picker-expo": "^0.5.2",
     "react-redux": "^8.0.2",
-    "expo-splash-screen": "~0.16.2"
+    "expo-splash-screen": "~0.16.2",
+    "expo-notifications": "~0.16.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
