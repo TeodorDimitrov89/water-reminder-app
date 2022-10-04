@@ -1,13 +1,18 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
+import {
+  ACTIVITY_SCREEN,
+  GENDER_SCREEN,
+  WEIGHT_SCREEN,
+} from "../../constants/screens";
 import { GlobalStyles } from "../../constants/styles";
 import Activity from "./Activity/Activity";
 import Gender from "./Gender/Gender";
 
 import Weight from "./Weight/Weight";
 
-const Intro = ({ navigation }) => {
-  const [page, setPage] = useState("gender");
+const Intro = () => {
+  const [page, setPage] = useState(GENDER_SCREEN);
   const [gender, setGender] = useState("");
 
   const pageHandler = (selectedGender, pageName) => {
@@ -17,15 +22,17 @@ const Intro = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {page === "gender" && <Gender onNextPage={pageHandler} />}
-      {page === "weight" && (
+      {page === GENDER_SCREEN && <Gender onNextPage={pageHandler} />}
+      {page === WEIGHT_SCREEN && (
         <Weight
           onNextPage={pageHandler}
           onPrevPage={pageHandler}
           selectedGender={gender}
         />
       )}
-      {page === "activity" && <Activity onNextPage={pageHandler} />}
+      {page === ACTIVITY_SCREEN && (
+        <Activity onPrevPage={pageHandler} selectedGender={gender} />
+      )}
     </View>
   );
 };

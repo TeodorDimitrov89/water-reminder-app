@@ -4,7 +4,7 @@ import { GlobalStyles } from "../../constants/styles";
 import Button from "../Buttons/Button";
 import UISelect from "./UISelect";
 
-const UIModal = ({ isVisible, onSelect, onClose, onConfirm }) => {
+const UIModal = ({ isVisible, onSelect, onClose }) => {
   return (
     <Modal isVisible={isVisible} backdropOpacity={0.9}>
       <View style={styles.modalContainer}>
@@ -16,17 +16,6 @@ const UIModal = ({ isVisible, onSelect, onClose, onConfirm }) => {
           color={GlobalStyles.colors.white}
         ></Button>
         <UISelect onSelect={onSelect} />
-        <View style={styles.modalRow}>
-          <Button
-            onPress={onConfirm}
-            icon="checkmark-circle-outline"
-            size={22}
-            buttonStyles={styles.buttonConfirm}
-            color={GlobalStyles.colors.white}
-          >
-            <Text style={styles.buttonText}>OK</Text>
-          </Button>
-        </View>
       </View>
     </Modal>
   );
@@ -68,8 +57,9 @@ const styles = StyleSheet.create({
   },
   buttonClose: {
     position: "absolute",
-    top: 0,
-    right: 0,
+    top: -10,
+    right: -20,
+    zIndex: 9,
   },
   buttonConfirm: {
     flexDirection: "row",

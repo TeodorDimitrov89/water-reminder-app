@@ -1,8 +1,12 @@
+import { useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import WheelPickerExpo from "react-native-wheel-picker-expo";
 import Button from "../../../components/Buttons/Button";
 import IntroImage from "../../../components/Intro/IntroImage";
+import { ACTIVITY_SCREEN, GENDER_SCREEN } from "../../../constants/screens";
+import { WEIGHT_KEY } from "../../../constants/storage";
 import { GlobalStyles } from "../../../constants/styles";
+import { setItem } from "../../../storage/database";
 
 const WEIGHTS = [
   40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120,
@@ -11,12 +15,18 @@ const WEIGHTS = [
 const MEASURE = ["kg"];
 
 const Weight = ({ onNextPage, onPrevPage, selectedGender }) => {
+  const [weight, setWeight] = useState();
   const nextPageHandler = async () => {
-    onNextPage(null, "activity");
+    setItem(WEIGHT_KEY, weight);
+    onNextPage(selectedGender, ACTIVITY_SCREEN);
   };
 
   const goBackHandler = () => {
-    onPrevPage(null, "gender");
+    onPrevPage(null, GENDER_SCREEN);
+  };
+
+  const weightChangeHandler = ({ item }) => {
+    setWeight(item.value);
   };
 
   const weightImage =
@@ -58,6 +68,7 @@ const Weight = ({ onNextPage, onPrevPage, selectedGender }) => {
               </View>
             )}
             initialSelectedIndex={6}
+            onChange={weightChangeHandler}
             items={WEIGHTS.map((value) => ({ label: value, value: value }))}
           />
           <WheelPickerExpo
@@ -125,7 +136,7 @@ const styles = StyleSheet.create({
     color: "#FF4593",
   },
   text: {
-    fontSize: 20,
+    fontSize: 28,
     fontWeight: "bold",
   },
   textCenter: {

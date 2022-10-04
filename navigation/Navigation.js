@@ -2,6 +2,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
+import * as SplashScreen from "expo-splash-screen";
+
 import { Ionicons } from "@expo/vector-icons";
 import { GlobalStyles } from "../constants/styles";
 import Home from "../screens/Home/Home";
@@ -9,6 +11,9 @@ import History from "../screens/History/History";
 import Settings from "../screens/Settings/Settings";
 import Welcome from "../screens/Intro/Welcome/Welcome";
 import Intro from "../screens/Intro/Intro";
+import { clearItem, clearStorage, getItem } from "../storage/database";
+import { AUTH_KEY } from "../constants/storage";
+import { useEffect, useState } from "react";
 
 const Stack = createNativeStackNavigator();
 
@@ -76,7 +81,31 @@ function HomeOverview() {
   );
 }
 
+SplashScreen.preventAutoHideAsync();
+
 const Navigation = () => {
+  const [isTryingLogin, setIsTryingLogin] = useState(true);
+  const [isAuth, setIsAuth] = useState(false);
+
+  useEffect(() => {
+    async function fetchAuth() {
+      await clearStorage();
+      const skipWelcomeScreen = (await getItem(AUTH_KEY)) || false;
+
+      if (skipWelcomeScreen) {
+        setIsAuth(skipWelcomeScreen);
+      }
+      setIsTryingLogin(false);
+    }
+
+    fetchAuth();
+  }, []);
+
+  if (!isTryingLogin) {
+    setTimeout(() => {
+      SplashScreen.hideAsync();
+    }, 500);
+  }
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -84,17 +113,20 @@ const Navigation = () => {
           headerShown: false,
         }}
       >
-        <Stack.Screen
-          name="Welcome"
-          component={Welcome}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
-          name="Intro"
-          component={Intro}
-          options={{ headerShown: false }}
-        />
+        {!isAuth && (
+          <>
+            <Stack.Screen
+              name="Welcome"
+              component={Welcome}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Intro"
+              component={Intro}
+              options={{ headerShown: false }}
+            />
+          </>
+        )}
 
         <Stack.Screen
           name="HomeOverview"

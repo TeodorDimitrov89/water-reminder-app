@@ -36,8 +36,8 @@ const ManageDrinks = () => {
   };
 
   const selectQuantityHandler = (selectedItem) => {
-    // console.log(selectedItem, "selectedItem");
     setSelectedQuantity(selectedItem);
+    confirmModalHandler();
   };
   return (
     <>

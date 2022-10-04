@@ -3,29 +3,29 @@ import { Image, StyleSheet, View, Text } from "react-native";
 
 import Button from "../../../components/Buttons/Button";
 import IntroImage from "../../../components/Intro/IntroImage";
+import { WEIGHT_SCREEN } from "../../../constants/screens";
+import { GENDER_KEY } from "../../../constants/storage";
 import { GlobalStyles } from "../../../constants/styles";
 import { getItem, setItem } from "../../../storage/database";
 
 const Gender = ({ onNextPage }) => {
   const [maleImageSelected, setMaleImageSelected] = useState(true);
   const [femaleImageSelected, setFemaleImageSelected] = useState(false);
-
   const maleSelectedHandler = () => {
     setMaleImageSelected(true);
     setFemaleImageSelected(false);
-    setItem("gender", "male");
+    setItem(GENDER_KEY, "male");
   };
 
   const femaleSelectedHandler = () => {
     setMaleImageSelected(false);
     setFemaleImageSelected(true);
-    setItem("gender", "female");
+    setItem(GENDER_KEY, "female");
   };
 
   const nextPageHandler = async () => {
-    const gender = await getItem("gender");
-    onNextPage(gender, "weight");
-    console.log(gender, "gendergendergender");
+    const gender = (await getItem(GENDER_KEY)) || "male";
+    onNextPage(gender, WEIGHT_SCREEN);
   };
 
   const maleImageSource = maleImageSelected
